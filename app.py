@@ -20,8 +20,8 @@ with open('genre_similarity_mapping.pkl', 'rb') as file:
     cosine_genre = pickle.load(file)
 
 # Set up Spotify API credentials (replace with your credentials)
-SPOTIPY_CLIENT_ID = '835d9da007be4017aebb3f09eac4036b'
-SPOTIPY_CLIENT_SECRET = 'ed04f67ec93e44b98fa2ab797c420d7c'
+SPOTIPY_CLIENT_ID = 'Enter Spotify Client Id'
+SPOTIPY_CLIENT_SECRET = 'Enter Spotify Client Secret'
 sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id=SPOTIPY_CLIENT_ID,
                                                            client_secret=SPOTIPY_CLIENT_SECRET))
 
