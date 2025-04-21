@@ -44,8 +44,8 @@ except Exception as e:
     exit()
 
 # Set up Spotify API credentials (replace with your credentials)
-SPOTIPY_CLIENT_ID = '03b084fb5cd243b996cdf71a28478a2c'
-SPOTIPY_CLIENT_SECRET = 'f29f318f211944cc8bb218272a6292f0'
+SPOTIPY_CLIENT_ID = 'Enter spotify client Id'
+SPOTIPY_CLIENT_SECRET = 'Enter Spotify client secret'
 sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id=SPOTIPY_CLIENT_ID,
                                                            client_secret=SPOTIPY_CLIENT_SECRET))
 
