@@ -13,14 +13,27 @@ steps:
     versionSpec: '$(PYTHON_VERSION)'
 
 - script: |
+    echo "🔍 Listing directories to check repo structure"
+    ls -R  # Check the repo structure to ensure 'project/requirements.txt' exists
+  displayName: '🔍 Show Directory Structure'
+
+- script: |
+    echo "📦 Installing dependencies"
     python -m pip install --upgrade pip
     pip install -r "project/requirements.txt"
   displayName: '📦 Install Dependencies'
 
 - script: |
-    cd "project"
-    python -m unittest discover || echo "⚠️ No tests found or test failed"
-  displayName: '🧪 Run Tests (Optional)'
+    echo "🧪 Running tests"
+    python -m unittest discover  # Remove || to fail the build if tests fail
+  displayName: '🧪 Run Tests'
+
+- task: PublishTestResults@2
+  inputs:
+    testResultsFiles: '**/TEST-*.xml'  # Ensure you have test results in this format
+    testRunTitle: 'Unit Tests'
+  condition: succeededOrFailed()
+  displayName: 'Publish Test Results'
 
 - script: |
     echo "✅ Pipeline Completed Successfully!"
