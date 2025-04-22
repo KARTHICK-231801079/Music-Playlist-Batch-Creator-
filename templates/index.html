@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    <style>
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #1c1c1c;
+            color: #ddd;
+            margin: 0;
+            padding: 0;
+        }
+        .page-header {
+    text-align: center;
+    color: #fff;
+    font-size: 36px;
+    margin: 10px 0;
+    font-weight: 600;
+}
+
+.logout-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #e53e3e;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    text-align: center;
+    margin: 20px auto;
+}
+
+.logout-btn:hover {
+    background-color: #ff4d4d;
+}
+
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background: #2c2c2c;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+        }
+
+        h1 {
+            text-align: center;
+            color: #fff;
+            font-size: 36px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        form {
+            margin-bottom: 30px;
+        }
+
+        label {
+            color: #ccc;
+            font-size: 16px;
+            margin-bottom: 8px;
+            display: inline-block;
+        }
+
+        select,
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            background-color: #3a3a3a;
+            color: #fff;
+            border: 1px solid #444;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        select:focus,
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #1db954;
+            background-color: #2a2a2a;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #1db954;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #1ed760;
+        }
+
+        #additional-fields div {
+            margin-bottom: 15px;
+        }
+
+        .playlist {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: space-between;
+        }
+
+        .track {
+            background-color: #333;
+            border-radius: 10px;
+            padding: 20px;
+            display: flex;
+            width: calc(33% - 20px);
+            transition: all 0.3s ease;
+        }
+
+        .track:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
+        }
+
+        .album-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 8px;
+            object-fit: cover;
+            margin-right: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .album-image:hover {
+            transform: scale(1.1);
+        }
+
+        .details {
+            flex: 1;
+            color: #ddd;
+        }
+
+        .details h3 {
+            margin: 0;
+            font-size: 20px;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .details p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        .details a {
+            color: #1db954;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .details a:hover {
+            color: #1ed760;
+        }
+
+        audio {
+            width: 100%;
+            margin-top: 10px;
+            background-color: #444;
+            border: 1px solid #555;
+            border-radius: 6px;
+            padding: 5px;
+        }
+
+        #user_choice {
+            background-color: #3a3a3a;
+            color: #fff;
+            border: 1px solid #444;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        #user_choice:focus {
+            outline: none;
+            border-color: #1db954;
+        }
+    </style
+</head>
+<body>
+    <h1>Welcome,This is your home page. {{ username }}!</h1>
+    <p></p>
+    
+    <div class="container">
+        <h1>🎵 Music Playlist Creator</h1>
+        <form method="POST">
+            <label for="user_choice">Recommendation Type:</label>
+            <select id="user_choice" name="user_choice">
+                <option value="1">Popularity</option>
+                <option value="2">Artist</option>
+                <option value="3">Random</option>
+                <option value="4">Lyrics</option>
+                <option value="5">Mood</option>
+                <option value="6">Genre</option>
+            </select>
+            <br><br>
+            <div id="additional-fields">
+                <!-- Only show extra fields when needed -->
+                <div id="artist-field" style="display:none;">
+                    <label for="artist_name">Artist Name:</label>
+                    <input type="text" id="artist_name" name="artist_name" placeholder="Enter artist name">
+                </div>
+                <div id="lyrics-field" style="display:none;">
+                    <label for="song_name">Song Name (Lyrics):</label>
+                    <input type="text" id="song_name" name="song_name" placeholder="Enter song name">
+                </div>
+                <div id="mood-field" style="display:none;">
+                    <label for="mood">Mood (happy, sad, love, workout, instrumental):</label>
+                    <input type="text" id="mood" name="mood" placeholder="Enter mood">
+                </div>
+                <div id="genre-field" style="display:none;">
+                    <label for="genre">Genre:</label>
+                    <input type="text" id="genre" name="genre" placeholder="Enter genre">
+                </div>
+            </div>
+            <br>
+            <button type="submit">Generate Playlist</button>
+        </form>
+
+        {% if message %}
+            <p>{{ message }}</p>
+        {% endif %}
+
+        {% if playlist %}
+            <h2>Your Playlist</h2>
+            <div class="playlist">
+                {% for track in playlist %}
+                    <div class="track">
+                        <img src="{{ track.album_image }}" alt="Album Image" class="album-image">
+                        <div class="details">
+                            <h3>{{ track.track_name }}</h3>
+                            <p>Artist: {{ track.track_artist }}</p>
+                            <p>Album: {{ track.album_name }}</p>
+                            <p>Release Date: {{ track.release_date }}</p>
+                            <a href="{{ track.spotify_url }}" target="_blank">Listen on Spotify</a>
+                            {% if track.preview_url %}
+                                <audio controls>
+                                    <source src="{{ track.preview_url }}" type="audio/mpeg">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    
+    <script>
+        // Toggle visibility of input fields based on selected recommendation type.
+        const userChoice = document.getElementById('user_choice');
+        const artistField = document.getElementById('artist-field');
+        const lyricsField = document.getElementById('lyrics-field');
+        const moodField = document.getElementById('mood-field');
+        const genreField = document.getElementById('genre-field');
+
+        function updateFields() {
+            const choice = userChoice.value;
+            artistField.style.display = (choice === "2") ? "block" : "none";
+            lyricsField.style.display = (choice === "4") ? "block" : "none";
+            moodField.style.display = (choice === "5") ? "block" : "none";
+            genreField.style.display = (choice === "6") ? "block" : "none";
+        }
+        userChoice.addEventListener("change", updateFields);
+        window.onload = updateFields;
+    </script>
+    <div style="text-align: center;">
+        <a href="{{ url_for('login') }}" class="logout-btn">Logout</a>
+    </div>
+</body>
+</html>
