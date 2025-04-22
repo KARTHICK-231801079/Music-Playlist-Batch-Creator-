@@ -1,0 +1,39 @@
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  PYTHON_VERSION: '3.10'
+
+steps:
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '$(PYTHON_VERSION)'
+    addToPath: true
+
+- script: |
+    python -m pip install --upgrade pip
+    pip install -r requirements.txt
+    pip install gdown
+  displayName: 'Install dependencies and gdown'
+
+- script: |
+    echo "📥 Downloading music_df.pkl from Google Drive..."
+    gdown --id 1e8CtNMNCGfcFKiH4amW3NyliIn5Cf4P3
+  displayName: 'Download music_df.pkl'
+
+- script: |
+    echo "🔍 Verifying all required pickle files..."
+    ls -lh *.pkl
+  displayName: 'Verify .pkl files'
+
+- script: |
+    echo "🧪 Checking app.py for syntax errors..."
+    python -m py_compile app.py
+  displayName: 'Compile app.py'
+
+- script: |
+    echo "✅ Flask app pipeline executed successfully!"
+  displayName: 'Pipeline finished'
