@@ -1,0 +1,28 @@
+trigger:
+  branches:
+    include:
+      - main  # This triggers the pipeline when changes are made to the 'main' branch.
+
+pool:
+  vmImage: 'ubuntu-latest'  # Choose a VM image with Python pre-installed. You can use 'windows-latest' or 'macos-latest' too.
+
+steps:
+  - task: UsePythonVersion@0  # This installs the specified version of Python
+    inputs:
+      versionSpec: '3.x'  # Specify the Python version (3.x or another version)
+      addToPath: true  # Adds Python to the system PATH
+
+  - script: |
+      python -m pip install --upgrade pip  # Upgrades pip to the latest version
+      pip install -r requirements.txt  # Installs dependencies listed in requirements.txt
+    displayName: 'Install dependencies'
+
+  - script: |
+      pytest  # Runs your tests using pytest (or you can use unittest, etc.)
+    displayName: 'Run Tests'
+
+  - task: PublishBuildArtifacts@1  # This uploads the build artifacts, e.g., test results, reports, etc.
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'drop'
+      publishLocation: 'Container'
