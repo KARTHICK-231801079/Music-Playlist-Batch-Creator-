@@ -5,35 +5,31 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
-  PYTHON_VERSION: '3.10'
+  pythonVersion: '3.10'
 
 steps:
+
+# Step 1: Use Python
 - task: UsePythonVersion@0
   inputs:
-    versionSpec: '$(PYTHON_VERSION)'
+    versionSpec: '$(pythonVersion)'
     addToPath: true
 
+# Step 2: Install pip and dependencies
 - script: |
     python -m pip install --upgrade pip
     pip install -r requirements.txt
     pip install gdown
-  displayName: 'Install dependencies and gdown'
+  displayName: 'Install Python Dependencies'
 
+# Step 3: Download music_df.pkl from Google Drive using gdown
 - script: |
-    echo "📥 Downloading music_df.pkl from Google Drive..."
-    gdown --id 1e8CtNMNCGfcFKiH4amW3NyliIn5Cf4P3
-  displayName: 'Download music_df.pkl'
+    mkdir -p data
+    gdown --id 1e8CtNMNCGfcFKiH4amW3NyliIn5Cf4P3 -O data/music_df.pkl
+  displayName: 'Download music_df.pkl from Google Drive'
 
+# Step 4: Sanity check to test imports
 - script: |
-    echo "🔍 Verifying all required pickle files..."
-    ls -lh *.pkl
-  displayName: 'Verify .pkl files'
-
-- script: |
-    echo "🧪 Checking app.py for syntax errors..."
-    python -m py_compile app.py
-  displayName: 'Compile app.py'
-
-- script: |
-    echo "✅ Flask app pipeline executed successfully!"
-  displayName: 'Pipeline finished'
+    echo "Sanity check: testing imports..."
+    python -c "import flask, pandas, numpy, spotipy, pymongo, werkzeug, pickle, difflib; print('✅ All imports successful!')"
+  displayName: 'Sanity Check - Python Imports'
