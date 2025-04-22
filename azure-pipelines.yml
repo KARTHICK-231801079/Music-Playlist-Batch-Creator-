@@ -1,5 +1,5 @@
 trigger:
-- main  # or change to your working branch
+- main  # or your actual branch
 
 pool:
   vmImage: ubuntu-latest
@@ -14,11 +14,11 @@ steps:
 
 - script: |
     python -m pip install --upgrade pip
-    pip install -r "SC project/requirements.txt"
+    pip install -r "project/requirements.txt"
   displayName: '📦 Install Dependencies'
 
 - script: |
-    cd "SC project"
+    cd "project"
     python -m unittest discover || echo "⚠️ No tests found or test failed"
   displayName: '🧪 Run Tests (Optional)'
 
