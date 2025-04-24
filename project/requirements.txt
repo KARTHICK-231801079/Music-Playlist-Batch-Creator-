@@ -1,8 +1,0 @@
-flask
-pandas
-numpy
-spotipy
-pymongo
-werkzeug
-pickle
-difflib
