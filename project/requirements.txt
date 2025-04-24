@@ -1,0 +1,6 @@
+flask
+pandas
+numpy
+spotipy
+pymongo
+werkzeug
