@@ -11,7 +11,12 @@ steps:
     addToPath: true
 
 - script: |
-    echo "Installing requirements..."
+    echo "Upgrading pip..."
+    python -m pip install --upgrade pip
+  displayName: 'Upgrade pip'
+
+- script: |
+    echo "Installing dependencies..."
     pip install -r requirements.txt
   displayName: 'Install dependencies'
 
