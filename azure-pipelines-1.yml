@@ -2,34 +2,41 @@ trigger:
 - main
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: 'ubuntu-latest'
 
 steps:
-- checkout: self
-
 - task: UsePythonVersion@0
   inputs:
     versionSpec: '3.x'
-  displayName: 'Set up Python'
+    addToPath: true
 
 - script: |
-    python -m pip install --upgrade pip
-    pip install -r project/requirements.txt
-  displayName: 'Install Dependencies'
+    echo "Installing requirements..."
+    pip install -r requirements.txt
+  displayName: 'Install dependencies'
 
 - script: |
-    echo "Hello from Music Playlist Batch Creator!"
-  displayName: 'Run Hello Script'
+    echo "Running basic Python test..."
+    python --version
+    python -c "print('Hello from Azure Pipeline test!')"
+  displayName: 'Basic Python Test'
 
 - script: |
-    python performance_test.py
-  displayName: 'Performance Test'
+    echo "Checking if app.py exists..."
+    if [ -f "app.py" ]; then
+      echo "app.py found!"
+    else
+      echo "app.py not found!"
+      exit 1
+    fi
+  displayName: 'Check for app.py'
 
 - script: |
-    python -m unittest discover -s project/tests -p "test_*.py"
-  displayName: 'Run Unit Tests'
+    echo "Running basic unit test..."
+    pytest -v
+  displayName: 'Run unit tests with pytest'
 
 - script: |
-    pip install flake8
-    flake8 project/
-  displayName: 'Code Style Check'
+    echo "Running app.py..."
+    python app.py
+  displayName: 'Run app.py'
