@@ -1,47 +1,31 @@
 trigger:
-- main
+  - main  # Trigger pipeline when changes are pushed to the main branch
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: ubuntu-latest  # Use a hosted Ubuntu agent
 
 steps:
+# Step 1: Checkout the code from GitHub
+- checkout: self
+
+# Step 2: Set up Python environment
 - task: UsePythonVersion@0
   inputs:
-    versionSpec: '3.x'
-    addToPath: true
+    versionSpec: '3.x'  # Use the latest Python 3.x version
+  displayName: "Set up Python"
 
+# Step 3: Install dependencies from the correct path
 - script: |
-    echo "Upgrading pip..."
     python -m pip install --upgrade pip
-  displayName: 'Upgrade pip'
+    pip install -r project/requirements.txt  # Adjusted path to requirements.txt
+  displayName: "Install dependencies"
 
+# Step 4: Run unit tests using pytest
 - script: |
-    echo "Installing dependencies..."
-    pip install -r requirements.txt
-  displayName: 'Install dependencies'
+    python -m pytest tests/  # Assuming tests are located in a 'tests' directory
+  displayName: "Run tests"
 
+# Step 5: Run the app.py script
 - script: |
-    echo "Running basic Python test..."
-    python --version
-    python -c "print('Hello from Azure Pipeline test!')"
-  displayName: 'Basic Python Test'
-
-- script: |
-    echo "Checking if app.py exists..."
-    if [ -f "app.py" ]; then
-      echo "app.py found!"
-    else
-      echo "app.py not found!"
-      exit 1
-    fi
-  displayName: 'Check for app.py'
-
-- script: |
-    echo "Running basic unit test..."
-    pytest -v
-  displayName: 'Run unit tests with pytest'
-
-- script: |
-    echo "Running app.py..."
     python app.py
-  displayName: 'Run app.py'
+  displayName: "Run app.py"
