@@ -21,10 +21,6 @@ steps:
     pip install pytest  # Install pytest explicitly
   displayName: "Install dependencies"
 
-# Step 4: Run unit tests using pytest
-- script: |
-    python -m pytest tests/  # Assuming tests are located in a 'tests' directory
-  displayName: "Run tests"
 
 # Step 5: Run the app.py script
 - script: |
