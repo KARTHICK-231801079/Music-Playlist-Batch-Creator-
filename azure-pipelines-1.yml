@@ -1,0 +1,48 @@
+trigger:
+  - main  # Trigger pipeline when changes are pushed to the main branch
+
+pool:
+  vmImage: ubuntu-latest  # Use a hosted Ubuntu agent
+
+steps:
+# Step 1: Checkout the code from GitHub
+- checkout: self
+
+# Step 2: Set up Python environment
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '3.x'  # Use the latest Python 3.x version
+  displayName: "Set up Python"
+
+# Step 3: Install dependencies from the correct path
+- script: |
+    python -m pip install --upgrade pip
+    pip install -r project/requirements.txt  # Adjust path to your requirements.txt
+  displayName: "Install Dependencies"
+
+# Step 4: Run a simple Python script to check environment
+- script: |
+    python -c "print('🎶 Hello from Music Playlist Batch Creator!')"
+  displayName: "Run Hello Script"
+
+# Step 5: Basic Performance Timing Test
+- script: |
+    python -c "
+import time
+start = time.time()
+import project.main  # replace with your actual main module if different
+end = time.time()
+print(f'⏱ Import time: {end - start:.4f} seconds')
+"
+  displayName: "Basic Performance Test (Import Time)"
+
+# Step 6: Run Unit Tests (if any exist)
+- script: |
+    python -m unittest discover -s project/tests -p "test_*.py"  # Adjust path/pattern if needed
+  displayName: "Run Unit Tests"
+
+# Step 7: Code Style Check (flake8)
+- script: |
+    pip install flake8
+    flake8 project/  # Adjust folder name if needed
+  displayName: "Code Style Check (flake8)"
